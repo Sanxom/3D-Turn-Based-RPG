@@ -28,4 +28,19 @@ public class Character : MonoBehaviour
     public GameObject healParticlePrefab;
 
     private Vector3 _standingPosition;
+
+    private void OnEnable()
+    {
+        TurnManager.instance.OnNewTurn += OnNewTurn;
+    }
+
+    private void OnDisable()
+    {
+        TurnManager.instance.OnNewTurn -= OnNewTurn;
+    }
+
+    private void OnNewTurn()
+    {
+        characterUI.ToggleTurnVisual(TurnManager.instance.CurrentTurnCharacter == this);
+    }
 }

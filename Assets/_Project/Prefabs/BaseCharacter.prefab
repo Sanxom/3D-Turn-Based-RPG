@@ -405,6 +405,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a96575498ac31142a8a005bc6c6e742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterNameText: {fileID: 2566421697602767411}
+  healthText: {fileID: 2566421698321400628}
+  healthFill: {fileID: 2566421698514866575}
+  turnVisual: {fileID: 2566421697478425444}
 --- !u!1 &2566421698321400630
 GameObject:
   m_ObjectHideFlags: 0

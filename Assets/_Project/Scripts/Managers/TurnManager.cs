@@ -16,6 +16,8 @@ public class TurnManager : MonoBehaviour
     private Character _currentTurnCharacter;
     private int _currentTurnOrderIndex;
 
+    public Character CurrentTurnCharacter { get => _currentTurnCharacter; private set => _currentTurnCharacter = value; }
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -38,7 +40,7 @@ public class TurnManager : MonoBehaviour
         if (_currentTurnOrderIndex == _turnOrder.Count)
             _currentTurnOrderIndex = 0;
 
-        // Character is dead, so we skip their turn.
+        // While character is dead, we skip their turn.
         while (_turnOrder[_currentTurnOrderIndex] == null)
         {
             _currentTurnOrderIndex++;
@@ -66,7 +68,7 @@ public class TurnManager : MonoBehaviour
 
     private void NewTurn(Character character)
     {
-        _currentTurnCharacter = character;
+        CurrentTurnCharacter = character;
         OnNewTurn?.Invoke();
 
         endTurnButton.SetActive(character.team == Character.Team.Player);
