@@ -613,6 +613,7 @@ MonoBehaviour:
   maxHealth: 25
   currentMana: 10
   maxMana: 10
+  combatActions: []
   characterEffects: {fileID: 2566421698369726932}
   characterUI: {fileID: 2566421698200405042}
   selectionVisualGO: {fileID: 2566421698418611830}

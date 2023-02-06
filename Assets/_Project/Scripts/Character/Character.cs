@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
@@ -32,6 +33,13 @@ public class Character : MonoBehaviour
 
     private Vector3 _standingPosition;
 
+    private void Start()
+    {
+        _standingPosition = transform.position;
+        characterUI.SetCharacterNameText(displayName);
+        characterUI.UpdateHealthBar(currentHealth, maxHealth);
+    }
+
     private void OnEnable()
     {
         TurnManager.instance.OnNewTurn += OnNewTurn;
@@ -47,8 +55,59 @@ public class Character : MonoBehaviour
         selectionVisualGO.SetActive(toggle);
     }
 
+    public void CastCombatAction(CombatAction combatAction, Character target = null)
+    {
+        if (target == null)
+            target = this;
+
+        combatAction.Cast(this, target);
+    }
+
+    public void TakeDamage(int minAmount, int maxAmount)
+    {
+        int randomAmount = Random.Range(minAmount, maxAmount + 1);
+        currentHealth -= randomAmount;
+
+        characterUI.UpdateHealthBar(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+            Die();
+    }
+
+    public void Heal(int amount)
+    {
+
+    }
+
+    public void MoveToTarget(Character target, UnityAction<Character> arriveCallback)
+    {
+        StartCoroutine(MeleeAttackAnimation());
+
+        IEnumerator MeleeAttackAnimation()
+        {
+            while(transform.position != target.transform.position)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 10 * Time.deltaTime);
+                yield return null;
+            }
+
+            arriveCallback?.Invoke(target);
+
+            while(transform.position != _standingPosition)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _standingPosition, 10 * Time.deltaTime);
+                yield return null;
+            }
+        }
+    }
+
     private void OnNewTurn()
     {
         characterUI.ToggleTurnVisual(TurnManager.instance.CurrentTurnCharacter == this);
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

@@ -58,6 +58,9 @@ public class PlayerCombatManager : MonoBehaviour
             _lastSelectionCheckTime = Time.time;
             SelectionCheck();
         }
+
+        if (Mouse.current.leftButton.isPressed && _currentSelectedCharacter != null)
+            CastCombatAction();
     }
 
     public void SetCurrentCombatAction(CombatAction combatAction)
@@ -134,6 +137,7 @@ public class PlayerCombatManager : MonoBehaviour
                 SelectCharacter(character);
                 return;
             }
+            // Able to select an enemy and the character hovered over is on the Enemy team
             else if(_canSelectEnemy && character.team == Character.Team.Enemy)
             {
                 SelectCharacter(character);
@@ -162,11 +166,19 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void CastCombatAction()
     {
+        TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, _currentSelectedCharacter);
+        _currentSelectedCombatAction = null;
 
+        UnselectCharacter();
+        DisablePlayerCombat();
+        combatActionsUI.DisableCombatActions();
+        TurnManager.instance.endTurnButton.SetActive(false);
+
+        Invoke(nameof(NextTurnDelay), 1);
     }
 
     private void NextTurnDelay()
     {
-
+        TurnManager.instance.EndTurn();
     }
 }
