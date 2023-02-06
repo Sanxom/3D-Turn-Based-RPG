@@ -42,6 +42,11 @@ public class Character : MonoBehaviour
         TurnManager.instance.OnNewTurn -= OnNewTurn;
     }
 
+    public void ToggleSelectionVisual(bool toggle)
+    {
+        selectionVisualGO.SetActive(toggle);
+    }
+
     private void OnNewTurn()
     {
         characterUI.ToggleTurnVisual(TurnManager.instance.CurrentTurnCharacter == this);

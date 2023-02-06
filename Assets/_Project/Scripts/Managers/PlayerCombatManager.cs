@@ -39,12 +39,12 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        TurnManager.instance.OnNewTurn += OnNewTurn;
     }
 
     private void OnDisable()
     {
-        
+        TurnManager.instance.OnNewTurn -= OnNewTurn;
     }
 
     private void Update()
@@ -62,22 +62,47 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void SetCurrentCombatAction(CombatAction combatAction)
     {
+        _currentSelectedCombatAction = combatAction;
 
+        _canSelectSelf = false;
+        _canSelectTeam = false;
+        _canSelectEnemy = false;
+
+        if(combatAction as MeleeCombatAction || combatAction as RangedCombatAction)
+        {
+            _canSelectEnemy = true;
+        }
+        else if(combatAction as HealCombatAction)
+        {
+            _canSelectSelf = true;
+            _canSelectTeam = true;
+        }
+        else if(combatAction as EffectCombatAction)
+        {
+            _canSelectSelf = (combatAction as EffectCombatAction).canAffectSelf;
+            _canSelectTeam = (combatAction as EffectCombatAction).canAffectTeam;
+            _canSelectEnemy = (combatAction as EffectCombatAction).canAffectEnemy;
+        }
     }
 
     private void OnNewTurn()
     {
-
+        if (TurnManager.instance.CurrentTurnCharacter.team == Character.Team.Player)
+            EnablePlayerCombat();
+        else
+            DisablePlayerCombat();
     }
 
     private void EnablePlayerCombat()
     {
-
+        _currentSelectedCharacter = null;
+        _currentSelectedCombatAction = null;
+        _isActive = true;
     }
 
     private void DisablePlayerCombat()
     {
-
+        _isActive = false;
     }
 
     /// <summary>
@@ -121,12 +146,18 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void SelectCharacter(Character character)
     {
-
+        UnselectCharacter();
+        _currentSelectedCharacter = character;
+        character.ToggleSelectionVisual(true);
     }
 
     private void UnselectCharacter()
     {
+        if (_currentSelectedCharacter == null)
+            return;
 
+        _currentSelectedCharacter.ToggleSelectionVisual(false);
+        _currentSelectedCharacter = null;
     }
 
     private void CastCombatAction()
