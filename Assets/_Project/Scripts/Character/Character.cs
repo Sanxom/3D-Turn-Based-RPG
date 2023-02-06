@@ -18,6 +18,9 @@ public class Character : MonoBehaviour
     public int currentMana;
     public int maxMana;
 
+    [Header("Combat Actions")]
+    public CombatAction[] combatActions;
+
     [Header("Components")]
     public CharacterEffects characterEffects;
     public CharacterUI characterUI;

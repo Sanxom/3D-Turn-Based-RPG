@@ -35,6 +35,22 @@ PrefabInstance:
       propertyPath: displayName
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: combatActions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: combatActions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b17a763ac1961b042ad65a754c40c6d5, type: 2}
+    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: combatActions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 615548100b0611c4595ea96040016c02, type: 2}
+    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: combatActions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: fc2b406b7c1a155468385df62c9ad58f, type: 2}
     - target: {fileID: 2566421698369726933, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: m_RootOrder
       value: 0
