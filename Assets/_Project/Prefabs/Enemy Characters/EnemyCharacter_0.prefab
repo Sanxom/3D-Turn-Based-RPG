@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: maxHealth
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: currentMana
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: currentHealth
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726933, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: m_RootOrder

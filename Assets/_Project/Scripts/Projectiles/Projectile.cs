@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // public Effect effectToApply;
+    public Effect effectToApply;
     public int minDamage;
     public int maxDamage;
     public int healAmount;
@@ -37,15 +37,12 @@ public class Projectile : MonoBehaviour
     private void ImpactTarget()
     {
         if(minDamage > 0 || maxDamage > 0)
-        {
-            _target.TakeDamage(minDamage, maxDamage);
-        }
+            _target.TakeDamageRandom(minDamage, maxDamage);
 
         if(healAmount > 0)
-        {
             _target.Heal(healAmount);
 
-            // Apply effect if we have one
-        }
+        if (effectToApply != null)
+            _target.GetComponent<CharacterEffects>().AddNewEffect(effectToApply);
     }
 }

@@ -15,6 +15,6 @@ public class MeleeCombatAction : CombatAction
 
     private void OnDamageTargetCallback(Character target)
     {
-        target.TakeDamage(minMeleeDamage, maxMeleeDamage);
+        target.TakeDamageRandom(minMeleeDamage, maxMeleeDamage);
     }
 }

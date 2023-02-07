@@ -63,7 +63,17 @@ public class Character : MonoBehaviour
         combatAction.Cast(this, target);
     }
 
-    public void TakeDamage(int minAmount, int maxAmount)
+    public void TakeDamageConstant(int amount)
+    {
+        currentHealth -= amount;
+
+        characterUI.UpdateHealthBar(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+            Die();
+    }
+
+    public void TakeDamageRandom(int minAmount, int maxAmount)
     {
         int randomAmount = Random.Range(minAmount, maxAmount + 1);
         currentHealth -= randomAmount;
@@ -76,7 +86,12 @@ public class Character : MonoBehaviour
 
     public void Heal(int amount)
     {
+        currentHealth += amount;
 
+        if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
+
+        characterUI.UpdateHealthBar(currentHealth, maxHealth);
     }
 
     public void MoveToTarget(Character target, UnityAction<Character> arriveCallback)
@@ -104,6 +119,7 @@ public class Character : MonoBehaviour
     private void OnNewTurn()
     {
         characterUI.ToggleTurnVisual(TurnManager.instance.CurrentTurnCharacter == this);
+        characterEffects.ApplyCurrentActiveEffects();
     }
 
     private void Die()
