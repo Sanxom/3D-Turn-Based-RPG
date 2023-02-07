@@ -182,6 +182,7 @@ public class PlayerCombatManager : MonoBehaviour
         }
         else
         {
+            // TODO: Create UI or send this to the Description box to notify Player
             print("Not enough mana. Choose another action.");
             UnselectCharacter();
             TurnManager.instance.ResetTurn();

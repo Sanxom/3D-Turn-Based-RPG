@@ -6,6 +6,7 @@ using TMPro;
 
 public class CharacterUI : MonoBehaviour
 {
+    public GameObject manaBarGO;
     public TextMeshProUGUI characterNameText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI manaText;

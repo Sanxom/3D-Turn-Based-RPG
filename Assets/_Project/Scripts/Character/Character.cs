@@ -38,6 +38,11 @@ public class Character : MonoBehaviour
         _standingPosition = transform.position;
         characterUI.SetCharacterNameText(displayName);
         characterUI.UpdateHealthBar(currentHealth, maxHealth);
+
+        if (team == Team.Enemy)
+            characterUI.manaBarGO.SetActive(false);
+        if (team == Team.Player)
+            characterUI.UpdateManaBar(currentMana, maxMana);
     }
 
     private void OnEnable()
