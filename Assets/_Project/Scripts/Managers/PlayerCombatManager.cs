@@ -60,7 +60,9 @@ public class PlayerCombatManager : MonoBehaviour
         }
 
         if (Mouse.current.leftButton.isPressed && _currentSelectedCharacter != null)
+        {
             CastCombatAction();
+        }
     }
 
     public void SetCurrentCombatAction(CombatAction combatAction)
@@ -166,15 +168,24 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void CastCombatAction()
     {
-        TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, _currentSelectedCharacter);
-        _currentSelectedCombatAction = null;
+        if (TurnManager.instance.CurrentTurnCharacter.currentMana >= _currentSelectedCombatAction.manaCost)
+        {
+            TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, _currentSelectedCharacter);
+            _currentSelectedCombatAction = null;
 
-        UnselectCharacter();
-        DisablePlayerCombat();
-        combatActionsUI.DisableCombatActions();
-        TurnManager.instance.endTurnButton.SetActive(false);
+            UnselectCharacter();
+            DisablePlayerCombat();
+            combatActionsUI.DisableCombatActions();
+            TurnManager.instance.endTurnButton.SetActive(false);
 
-        Invoke(nameof(NextTurnDelay), 1);
+            Invoke(nameof(NextTurnDelay), 1);
+        }
+        else
+        {
+            print("Not enough mana. Choose another action.");
+            UnselectCharacter();
+            TurnManager.instance.ResetTurn();
+        }
     }
 
     private void NextTurnDelay()

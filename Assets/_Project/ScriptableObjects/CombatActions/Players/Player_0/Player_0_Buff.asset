@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Buff
   description: Increases the damage of the target by 10%.
+  manaCost: 3
+  effectToCast: {fileID: 0}
   canAffectSelf: 1
   canAffectTeam: 1
   canAffectEnemy: 0

@@ -8,7 +8,9 @@ public class CharacterUI : MonoBehaviour
 {
     public TextMeshProUGUI characterNameText;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI manaText;
     public Image healthFill;
+    public Image manaFill;
     public Image turnVisual;
 
     private Camera _mainCamera;
@@ -37,5 +39,10 @@ public class CharacterUI : MonoBehaviour
     {
         healthText.text = $"{currentHealth} / {maxHealth}";
         healthFill.fillAmount = (float)currentHealth / (float)maxHealth;
+    }
+    public void UpdateManaBar(int currentMana, int maxMana)
+    {
+        manaText.text = $"{currentMana} / {maxMana}";
+        manaFill.fillAmount = (float)currentMana / (float)maxMana;
     }
 }

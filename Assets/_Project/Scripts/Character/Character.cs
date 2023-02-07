@@ -61,6 +61,9 @@ public class Character : MonoBehaviour
             target = this;
 
         combatAction.Cast(this, target);
+
+        currentMana -= combatAction.manaCost;
+        characterUI.UpdateManaBar(currentMana, maxMana);
     }
 
     public void TakeDamageConstant(int amount)
@@ -88,10 +91,11 @@ public class Character : MonoBehaviour
     {
         currentHealth += amount;
 
-        if (currentHealth >= maxHealth)
+        if (currentHealth > maxHealth)
             currentHealth = maxHealth;
 
         characterUI.UpdateHealthBar(currentHealth, maxHealth);
+        Instantiate(healParticlePrefab, transform);
     }
 
     public void MoveToTarget(Character target, UnityAction<Character> arriveCallback)

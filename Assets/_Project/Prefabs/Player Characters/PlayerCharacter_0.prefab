@@ -99,5 +99,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter_0
       objectReference: {fileID: 0}
+    - target: {fileID: 6985102997902139610, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_text
+      value: 10 / 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}

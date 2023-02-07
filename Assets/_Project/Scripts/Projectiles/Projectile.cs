@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     public Effect effectToApply;
     public int minDamage;
     public int maxDamage;
+    public int manaCost;
     public int healAmount;
     public float moveSpeed;
 

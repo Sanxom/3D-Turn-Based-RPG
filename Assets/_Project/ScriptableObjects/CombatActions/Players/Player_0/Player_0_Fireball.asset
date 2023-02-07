@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Fireball
   description: Throws a small ball of fire at a target.
+  manaCost: 5
   projectilePrefab: {fileID: 7837350134520899967, guid: ff961f7c322c9d847b164593c9d176e9, type: 3}

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Heal
   description: Heals a small amount of health.
+  manaCost: 5
   healAmount: 5

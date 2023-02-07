@@ -52,6 +52,14 @@ public class TurnManager : MonoBehaviour
         NewTurn(_turnOrder[_currentTurnOrderIndex]);
     }
 
+    /// <summary>
+    /// Called whenever you cannot cast a combat action due to low mana.
+    /// </summary>
+    public void ResetTurn()
+    {
+        NewTurn(CurrentTurnCharacter);
+    }
+
     private void GenerateTurnOrder(Character.Team startingTeam)
     {
         if(startingTeam == Character.Team.Player)
