@@ -12,6 +12,9 @@ public class EffectCombatAction : CombatAction
 
     public override void Cast(Character caster, Character target)
     {
+        if(caster == null || target == null)
+            return;
+
         target.characterEffects.AddNewEffect(effectToCast);
     }
 }

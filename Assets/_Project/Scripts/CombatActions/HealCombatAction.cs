@@ -9,6 +9,9 @@ public class HealCombatAction : CombatAction
 
     public override void Cast(Character caster, Character target)
     {
+        if (caster == null || target == null)
+            return;
+
         target.Heal(healAmount);
     }
 }

@@ -10,11 +10,15 @@ public class MeleeCombatAction : CombatAction
 
     public override void Cast (Character caster, Character target)
     {
+        if (caster == null || target == null)
+            return;
+
         caster.MoveToTarget(target, OnDamageTargetCallback);
     }
 
     private void OnDamageTargetCallback(Character target)
     {
-        target.TakeDamageRandom(minMeleeDamage, maxMeleeDamage);
+        if(target != null)
+            target.TakeDamageRandom(minMeleeDamage, maxMeleeDamage);
     }
 }

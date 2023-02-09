@@ -4892,6 +4892,7 @@ MonoBehaviour:
   effectToApply: {fileID: 11400000, guid: 18dc114debae8204d90a332d51965f5c, type: 2}
   minDamage: 5
   maxDamage: 8
+  manaCost: 0
   healAmount: 0
   moveSpeed: 5
 --- !u!1 &7837350134919686340

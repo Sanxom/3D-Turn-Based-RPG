@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterEffects : MonoBehaviour
@@ -16,7 +17,17 @@ public class CharacterEffects : MonoBehaviour
     {
         EffectInstance effectInstance = new EffectInstance(effect);
 
-        if(effect.activePrefabGO != null)
+        // This loop is to make sure we do not have duplicate effects stacking. Remove if you want effects to stack.
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i].effect.name == effect.name)
+            {
+                RemoveEffect(_currentEffects[i]);
+                break;
+            }
+        }
+
+        if (effect.activePrefabGO != null)
             effectInstance.currentActiveGameObject = Instantiate(effect.activePrefabGO, transform);
 
         if(effect.tickPrefabGO != null)

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0120a4176349ad4d85ae2533237f7f1, type: 3}
+  m_Name: Enemy_0_RockThrow
+  m_EditorClassIdentifier: 
+  displayName: Rock Throw
+  description: Throws a rock at the target.
+  manaCost: 0
+  projectilePrefab: {fileID: 5481735047409718091, guid: b4ee5fdb6b5c8f743a88ac970b2ec5fd, type: 3}

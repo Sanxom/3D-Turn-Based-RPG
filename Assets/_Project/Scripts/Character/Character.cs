@@ -77,6 +77,8 @@ public class Character : MonoBehaviour
 
         characterUI.UpdateHealthBar(currentHealth, maxHealth);
 
+        damageFlash.Flash();
+
         if (currentHealth <= 0)
             Die();
     }
@@ -87,6 +89,8 @@ public class Character : MonoBehaviour
         currentHealth -= randomAmount;
 
         characterUI.UpdateHealthBar(currentHealth, maxHealth);
+
+        damageFlash.Flash();
 
         if (currentHealth <= 0)
             Die();
@@ -133,6 +137,7 @@ public class Character : MonoBehaviour
 
     private void Die()
     {
+        GameManager.instance.OnCharacterKilled(this);
         Destroy(gameObject);
     }
 }

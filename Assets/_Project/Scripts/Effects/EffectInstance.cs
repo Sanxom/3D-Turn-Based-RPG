@@ -8,10 +8,12 @@ public class EffectInstance
     public ParticleSystem currentTickParticle;
     public Effect effect;
     public int turnsRemaining;
+    public bool isActive;
 
     public EffectInstance(Effect effect)
     {
         this.effect = effect;
         turnsRemaining = effect.durationOfTurns;
+        isActive = true;
     }
 }
