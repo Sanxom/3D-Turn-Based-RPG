@@ -7,5 +7,6 @@ public class PlayerPersistentCharacter
 {
     public GameObject characterPrefab;
     public int health;
+    public int mana;
     public bool isDead;
 }

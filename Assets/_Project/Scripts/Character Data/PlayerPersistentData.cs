@@ -19,6 +19,7 @@ public class PlayerPersistentData : ScriptableObject
         for (int i = 0; i < characters.Length; i++)
         {
             characters[i].health = characters[i].characterPrefab.GetComponent<Character>().maxHealth;
+            characters[i].mana = characters[i].characterPrefab.GetComponent<Character>().maxMana;
             characters[i].isDead = false;
         }
     }
