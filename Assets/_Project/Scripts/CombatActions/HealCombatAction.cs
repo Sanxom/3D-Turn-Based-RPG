@@ -14,4 +14,6 @@ public class HealCombatAction : CombatAction
 
         target.Heal(healAmount);
     }
+
+    public override void MultiCast(Character caster, Character[] targets){}
 }

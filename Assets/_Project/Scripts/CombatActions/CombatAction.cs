@@ -9,4 +9,5 @@ public abstract class CombatAction : ScriptableObject
     public int manaCost;
 
     public abstract void Cast(Character caster, Character target);
+    public abstract void MultiCast(Character caster, Character[] targets);
 }

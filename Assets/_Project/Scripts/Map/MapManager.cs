@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,11 +8,12 @@ using UnityEngine.SceneManagement;
 public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
-    public static MapData currentData;
 
     public List<Encounter> encounters = new();
     public MapParty party;
     public MapData data;
+
+    [SerializeField] private TextMeshProUGUI _currentIndex;
 
     private void Awake()
     {
@@ -23,20 +25,17 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        if (currentData == null)
-        {
-            currentData = data;
-        }
-
         for (int i = 0; i < encounters.Count; i++)
         {
-            if(i == currentData.currentEncounter)
-                encounters[i].hasBeenCleared = currentData.hasBeenCleared;
+            if(i == data.currentEncounter)
+                encounters[i].hasBeenCleared = data.hasBeenCleared;
         }
 
         UpdateEncounterStates();
 
-        party.transform.position = encounters[currentData.currentEncounter].transform.position;
+        party.transform.position = encounters[data.currentEncounter].transform.position;
+
+        _currentIndex.text = $"Current Index: {data.currentEncounter}";
     }
 
     public void MoveParty(Encounter encounter)
@@ -48,25 +47,27 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < encounters.Count; i++)
         {
-            if (i < currentData.currentEncounter)
+            if (i < data.currentEncounter)
                 encounters[i].SetState(Encounter.State.Visited);
-            else if (i == currentData.currentEncounter && encounters[i].hasBeenCleared)
+            else if (i == data.currentEncounter && encounters[i].hasBeenCleared)
                 encounters[i].SetState(Encounter.State.Visited);
-            else if (i == currentData.currentEncounter && !encounters[i].hasBeenCleared)
+            else if (i == data.currentEncounter && !encounters[i].hasBeenCleared)
                 encounters[i].SetState(Encounter.State.CanVisit);
-            else if (i == currentData.currentEncounter + 1 && encounters[i - 1].hasBeenCleared)
+            else if (i == data.currentEncounter + 1 && encounters[i - 1].hasBeenCleared)
                 encounters[i].SetState(Encounter.State.CanVisit);
-            else if (i == currentData.currentEncounter + 1 && !encounters[i - 1].hasBeenCleared)
+            else if (i == data.currentEncounter + 1 && !encounters[i - 1].hasBeenCleared)
                 encounters[i].SetState(Encounter.State.Locked);
-            else if (i > currentData.currentEncounter + 1)
+            else if (i > data.currentEncounter + 1)
                 encounters[i].SetState(Encounter.State.Locked);
         }
     }
 
     private void OnPartyArriveAtEncounter(Encounter encounter)
     {
-        currentData.currentEncounter = encounters.IndexOf(encounter);
-        currentData.hasBeenCleared = false;
+        data.currentEncounter = encounters.IndexOf(encounter);
+        PlayerPrefs.SetInt(data.currentEncounterKey, data.currentEncounter);
+        data.hasBeenCleared = false;
+        PlayerPrefs.SetString(data.hasBeenClearedKey, data.hasBeenCleared.ToString());
         GameManager.currentEnemySet = encounter.enemySet;
         SceneManager.LoadScene("Battle");
     }

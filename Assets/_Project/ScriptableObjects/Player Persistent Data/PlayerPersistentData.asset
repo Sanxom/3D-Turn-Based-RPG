@@ -15,4 +15,12 @@ MonoBehaviour:
   characters:
   - characterPrefab: {fileID: 5302402405155404594, guid: 512e12fa2b18c824b8e2cbe62eb4ba74, type: 3}
     health: 25
+    mana: 10
     isDead: 0
+  - characterPrefab: {fileID: 5302402405155404594, guid: 45ab7eb2da294b34996720e1d6d53ed2, type: 3}
+    health: 25
+    mana: 10
+    isDead: 0
+  savedHealth: savedHealth
+  savedMana: savedMana
+  savedIsDead: savedIsDead

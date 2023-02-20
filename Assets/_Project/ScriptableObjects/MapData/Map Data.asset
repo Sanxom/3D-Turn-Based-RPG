@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 269da48bd7fd9c841803f2a44019dc2d, type: 3}
   m_Name: Map Data
   m_EditorClassIdentifier: 
-  currentEncounter: 4
-  hasBeenCleared: 1
+  currentEncounter: 0
+  hasBeenCleared: 0
+  currentEncounterKey: currentEncounter
+  hasBeenClearedKey: hasBeenCleared

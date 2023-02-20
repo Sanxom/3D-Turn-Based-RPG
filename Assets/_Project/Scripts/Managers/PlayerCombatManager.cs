@@ -73,7 +73,7 @@ public class PlayerCombatManager : MonoBehaviour
         _canSelectTeam = false;
         _canSelectEnemy = false;
 
-        if(combatAction as MeleeCombatAction || combatAction as RangedCombatAction)
+        if(combatAction as MeleeCombatAction || combatAction as RangedCombatAction || combatAction as MultiTargetRangedCombatAction)
         {
             _canSelectEnemy = true;
         }
@@ -127,27 +127,32 @@ public class PlayerCombatManager : MonoBehaviour
             if (_currentSelectedCharacter != null && _currentSelectedCharacter == character)
                 return;
 
+            if (_currentSelectedCombatAction.GetType() == typeof(MultiTargetRangedCombatAction) && character.team == Character.Team.Enemy)
+            {
+                SelectCharacters(GameManager.instance.enemyTeam);
+                return;
+            }
             // Able to select self and character hovered over is on their turn
-            if(_canSelectSelf && character == TurnManager.instance.CurrentTurnCharacter)
+            else if (_canSelectSelf && character == TurnManager.instance.CurrentTurnCharacter)
             {
                 SelectCharacter(character);
                 return;
             }
             // Able to select teammates and the character hovered over is on the Player team
-            else if(_canSelectTeam && character.team == Character.Team.Player)
+            else if (_canSelectTeam && character.team == Character.Team.Player)
             {
                 SelectCharacter(character);
                 return;
             }
             // Able to select an enemy and the character hovered over is on the Enemy team
-            else if(_canSelectEnemy && character.team == Character.Team.Enemy)
+            else if (_canSelectEnemy && character.team == Character.Team.Enemy && _currentSelectedCombatAction.GetType() != typeof(MultiTargetRangedCombatAction))
             {
                 SelectCharacter(character);
                 return;
             }
         }
 
-        UnselectCharacter();
+        ChooseUnselectType();
     }
 
     private void SelectCharacter(Character character)
@@ -155,6 +160,17 @@ public class PlayerCombatManager : MonoBehaviour
         UnselectCharacter();
         _currentSelectedCharacter = character;
         character.ToggleSelectionVisual(true);
+    }
+
+    private void SelectCharacters(Character[] characters)
+    {
+        UnselectCharacters(characters);
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            _currentSelectedCharacter = characters[i];
+            characters[i].ToggleSelectionVisual(true);
+        }
     }
 
     private void UnselectCharacter()
@@ -166,14 +182,38 @@ public class PlayerCombatManager : MonoBehaviour
         _currentSelectedCharacter = null;
     }
 
+    private void UnselectCharacters(Character[] characters)
+    {
+        if (_currentSelectedCharacter == null)
+            return;
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            characters[i].ToggleSelectionVisual(false);
+        }
+
+        _currentSelectedCharacter = null;
+    }
+
+    private void ChooseUnselectType()
+    {
+        if (_currentSelectedCombatAction.GetType() == typeof(MultiTargetRangedCombatAction))
+            UnselectCharacters(GameManager.instance.enemyTeam);
+        else
+            UnselectCharacter();
+    }
+
     private void CastCombatAction()
     {
         if (TurnManager.instance.CurrentTurnCharacter.currentMana >= _currentSelectedCombatAction.manaCost)
         {
-            TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, _currentSelectedCharacter);
-            _currentSelectedCombatAction = null;
+            if(_currentSelectedCombatAction.GetType() != typeof(MultiTargetRangedCombatAction))
+                TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, false, _currentSelectedCharacter);
+            else
+                TurnManager.instance.CurrentTurnCharacter.CastCombatAction(_currentSelectedCombatAction, true, _currentSelectedCharacter);
 
-            UnselectCharacter();
+            ChooseUnselectType();
+            _currentSelectedCombatAction = null;
             DisablePlayerCombat();
             combatActionsUI.DisableCombatActions();
             TurnManager.instance.endTurnButton.SetActive(false);
@@ -182,9 +222,11 @@ public class PlayerCombatManager : MonoBehaviour
         }
         else
         {
-            // TODO: Create UI or send this to the Description box to notify Player
-            print("Not enough mana. Choose another action.");
-            UnselectCharacter();
+            NotificationManager.instance.ActivateNotification();
+            NotificationManager.instance.ChangeText("Not enough mana.");
+
+            ChooseUnselectType();
+            _currentSelectedCombatAction = null;
             TurnManager.instance.ResetTurn();
         }
     }

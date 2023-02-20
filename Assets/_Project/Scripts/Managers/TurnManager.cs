@@ -11,6 +11,7 @@ public class TurnManager : MonoBehaviour
 
     [Header("Components")]
     public GameObject endTurnButton;
+    public PlayerPersistentData data;
 
     private List<Character> _turnOrder = new();
     private Character _currentTurnCharacter;
@@ -37,19 +38,10 @@ public class TurnManager : MonoBehaviour
     {
         _currentTurnOrderIndex++;
 
-        if (_currentTurnOrderIndex == _turnOrder.Count)
+        if (_currentTurnOrderIndex >= _turnOrder.Count)
             _currentTurnOrderIndex = 0;
 
-        // While character is dead, we skip their turn.
-        while (_turnOrder[_currentTurnOrderIndex] == null)
-        {
-            _currentTurnOrderIndex++;
-
-            if (_currentTurnOrderIndex == _turnOrder.Count)
-                _currentTurnOrderIndex = 0;
-        }
-
-        NewTurn(_turnOrder[_currentTurnOrderIndex]);
+        SkipTurn();
     }
 
     /// <summary>
@@ -60,14 +52,30 @@ public class TurnManager : MonoBehaviour
         NewTurn(CurrentTurnCharacter);
     }
 
+    /// <summary>
+    /// Called whenever a character is dead in order to skip their turn.
+    /// </summary>
+    public void SkipTurn()
+    {
+        while (_turnOrder[_currentTurnOrderIndex] == null)
+        {
+            _currentTurnOrderIndex++;
+
+            if (_currentTurnOrderIndex >= _turnOrder.Count)
+                _currentTurnOrderIndex = 0;
+        }
+
+        NewTurn(_turnOrder[_currentTurnOrderIndex]);
+    }
+
     private void GenerateTurnOrder(Character.Team startingTeam)
     {
-        if(startingTeam == Character.Team.Player)
+        if (startingTeam == Character.Team.Player)
         {
             _turnOrder.AddRange(GameManager.instance.playerTeam);
             _turnOrder.AddRange(GameManager.instance.enemyTeam);
         }
-        else if(startingTeam == Character.Team.Enemy)
+        else if (startingTeam == Character.Team.Enemy)
         {
             _turnOrder.AddRange(GameManager.instance.enemyTeam);
             _turnOrder.AddRange(GameManager.instance.playerTeam);
@@ -76,6 +84,12 @@ public class TurnManager : MonoBehaviour
 
     private void NewTurn(Character character)
     {
+        if (character == null)
+        {
+            SkipTurn();
+            return;
+        }
+
         CurrentTurnCharacter = character;
         OnNewTurn?.Invoke();
 

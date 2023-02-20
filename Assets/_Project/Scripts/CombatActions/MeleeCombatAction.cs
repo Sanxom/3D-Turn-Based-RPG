@@ -16,6 +16,8 @@ public class MeleeCombatAction : CombatAction
         caster.MoveToTarget(target, OnDamageTargetCallback);
     }
 
+    public override void MultiCast(Character caster, Character[] targets) { }
+
     private void OnDamageTargetCallback(Character target)
     {
         if(target != null)

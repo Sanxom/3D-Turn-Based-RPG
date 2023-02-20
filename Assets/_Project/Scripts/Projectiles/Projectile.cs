@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
     public float moveSpeed;
 
     private Character _target;
+    private Character[] _targets;
 
     private void Update()
     {
@@ -19,23 +20,51 @@ public class Projectile : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, _target.transform.position + new Vector3(0, 0.5f, 0), moveSpeed * Time.deltaTime);
         }
+
+        if (_targets == null)
+            return;
+
+        for (int i = 0; i < 2; i++)
+        {
+            if (_targets[i] != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _targets[i].transform.position + new Vector3(0, 0.5f, 0), moveSpeed * Time.deltaTime);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(_target != null && other.gameObject == _target.gameObject)
         {
-            ImpactTarget();
+            ImpactSingleTarget();
             Destroy(gameObject);
+        }
+
+        if (_targets == null)
+            return;
+
+        for (int i = 0; i < 2; i++)
+        {
+            if (_targets[i] != null && other.gameObject == _targets[i].gameObject)
+            {
+                ImpactMultipleTargets();
+                Destroy(gameObject);
+            }
         }
     }
 
-    public void Initialize(Character target)
+    public void InitializeSingle(Character target)
     {
         _target = target;
     }
 
-    private void ImpactTarget()
+    public void InitializeMultiple(Character[] targets)
+    {
+        _targets = targets;
+    }
+
+    private void ImpactSingleTarget()
     {
         if(minDamage > 0 || maxDamage > 0)
             _target.TakeDamageRandom(minDamage, maxDamage);
@@ -45,5 +74,23 @@ public class Projectile : MonoBehaviour
 
         if (effectToApply != null)
             _target.GetComponent<CharacterEffects>().AddNewEffect(effectToApply);
+    }
+
+    private void ImpactMultipleTargets()
+    {
+        for (int i = 0; i < _targets.Length; i++)
+        {
+            if (_targets[i] == null)
+                continue;
+
+            if(minDamage > 0 || maxDamage > 0)
+                _targets[i].TakeDamageRandom(minDamage, maxDamage);
+
+            if(healAmount > 0)
+                _targets[i].Heal(healAmount);
+
+            if (effectToApply != null)
+                _targets[i].GetComponent<CharacterEffects>().AddNewEffect(effectToApply);
+        }
     }
 }

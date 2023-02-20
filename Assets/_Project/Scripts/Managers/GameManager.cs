@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +40,17 @@ public class GameManager : MonoBehaviour
         TurnManager.instance.Begin();
     }
 
-    public void OnCharacterKilled(Character character)
+    private void OnEnable()
+    {
+        Character.OnCharacterDeath += OnCharacterKilled;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnCharacterDeath -= OnCharacterKilled;
+    }
+
+    private void OnCharacterKilled(Character character)
     {
         _allCharacters.Remove(character);
 
@@ -48,9 +59,14 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < _allCharacters.Count; i++)
         {
+            if (_allCharacters[i] == null)
+                continue;
+
             if (_allCharacters[i].team == Character.Team.Player)
+            {
                 playersRemaining++;
-            else
+            }
+            else if (_allCharacters[i].team == Character.Team.Enemy)
                 enemiesRemaining++;
         }
 
@@ -78,6 +94,7 @@ public class GameManager : MonoBehaviour
             {
                 Character player = CreateCharacter(playerData.characters[i].characterPrefab, playerTeamSpawns[playerSpawnIndex]);
                 player.currentHealth = playerData.characters[i].health;
+                
                 player.currentMana = playerData.characters[i].mana;
                 playerTeam[i] = player;
                 playerSpawnIndex++;
@@ -107,7 +124,8 @@ public class GameManager : MonoBehaviour
     private void PlayerTeamWins()
     {
         UpdatePlayerPersistentData();
-        MapManager.currentData.hasBeenCleared = true;
+        MapManager.instance.data.hasBeenCleared = true;
+        PlayerPrefs.SetString(MapManager.instance.data.hasBeenClearedKey, "true");
 
         // TODO: Add a victory panel that gives you rewards instead of loading Map Scene
         Invoke(nameof(LoadMapScene), 0.5f);
@@ -116,7 +134,8 @@ public class GameManager : MonoBehaviour
     private void EnemyTeamWins()
     {
         playerPersistentData.ResetCharacters();
-        MapManager.currentData.hasBeenCleared = false;
+        MapManager.instance.data.hasBeenCleared = false;
+        PlayerPrefs.SetString(MapManager.instance.data.hasBeenClearedKey, "false");
         // TODO: Add a Game Over panel or Scene instead of loading Map Scene
         Invoke(nameof(LoadMapScene), 0.5f);
     }
@@ -129,10 +148,15 @@ public class GameManager : MonoBehaviour
             {
                 playerPersistentData.characters[i].health = playerTeam[i].currentHealth;
                 playerPersistentData.characters[i].mana = playerTeam[i].currentMana;
+                playerPersistentData.characters[i].isDead = false;
+                PlayerPrefs.SetInt(playerPersistentData.savedHealth + $"{i}", playerTeam[i].currentHealth);
+                PlayerPrefs.SetInt(playerPersistentData.savedMana + $"{i}", playerTeam[i].currentMana);
+                PlayerPrefs.SetString(playerPersistentData.savedIsDead + $"{i}", "false");
             }
             else
             {
                 playerPersistentData.characters[i].isDead = true;
+                PlayerPrefs.SetString(playerPersistentData.savedIsDead + $"{i}", "true");
             }
         }
     }

@@ -45,7 +45,7 @@ public class EnemyCombatManager : MonoBehaviour
 
             if(Random.value < healChanceCurve.Evaluate(GetHealthPercentage(weakestEnemy)))
             {
-                CastCombatAction(GetHealCombatAction(), weakestEnemy);
+                CastCombatAction(GetHealCombatAction(), false, weakestEnemy);
                 return;
             }
         }
@@ -59,9 +59,13 @@ public class EnemyCombatManager : MonoBehaviour
         
         if(playerToDamage != null)
         {
-            if(HasCombatActionOfType(typeof(MeleeCombatAction)) || HasCombatActionOfType(typeof(RangedCombatAction)))
+            if(HasCombatActionOfType(typeof(MeleeCombatAction)) || HasCombatActionOfType(typeof(RangedCombatAction)) || HasCombatActionOfType(typeof(MultiTargetRangedCombatAction)))
             {
-                CastCombatAction(GetDamageCombatAction(), playerToDamage);
+                CombatAction tempAction = GetDamageCombatAction();
+                if (tempAction.GetType() != typeof(MultiTargetRangedCombatAction))
+                    CastCombatAction(GetDamageCombatAction(), false, playerToDamage);
+                else
+                    CastCombatAction(tempAction, true, playerToDamage);
                 return;
             }
         }
@@ -69,7 +73,7 @@ public class EnemyCombatManager : MonoBehaviour
         Invoke(nameof(EndTurn), Random.Range(minWaitTime, maxWaitTime));
     }
 
-    private void CastCombatAction(CombatAction combatAction, Character target)
+    private void CastCombatAction(CombatAction combatAction, bool isMulti, Character target)
     {
         if (_currentEnemy == null)
         {
@@ -77,7 +81,10 @@ public class EnemyCombatManager : MonoBehaviour
             return;
         }
 
-        _currentEnemy.CastCombatAction(combatAction, target);
+        if (!isMulti)
+            _currentEnemy.CastCombatAction(combatAction, false, target);
+        else
+            _currentEnemy.CastCombatAction(combatAction, true, target);
         Invoke(nameof(EndTurn), Random.Range(minWaitTime, maxWaitTime));
     }
 
@@ -108,7 +115,7 @@ public class EnemyCombatManager : MonoBehaviour
     /// <returns></returns>
     private CombatAction GetDamageCombatAction()
     {
-        CombatAction[] ca = _currentEnemy.combatActions.Where(x => x.GetType() == typeof(MeleeCombatAction) || x.GetType() == typeof(RangedCombatAction)).ToArray();
+        CombatAction[] ca = _currentEnemy.combatActions.Where(x => x.GetType() == typeof(MeleeCombatAction) || x.GetType() == typeof(RangedCombatAction) || x.GetType() == typeof(MultiTargetRangedCombatAction)).ToArray();
 
         if (ca == null || ca.Length == 0)
             return null;

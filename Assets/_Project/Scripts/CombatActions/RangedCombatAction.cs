@@ -13,6 +13,8 @@ public class RangedCombatAction : CombatAction
             return;
 
         GameObject proj = Instantiate(projectilePrefab, caster.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-        proj.GetComponent<Projectile>().Initialize(target);
+        proj.GetComponent<Projectile>().InitializeSingle(target);
     }
+
+    public override void MultiCast(Character caster, Character[] targets) { }
 }

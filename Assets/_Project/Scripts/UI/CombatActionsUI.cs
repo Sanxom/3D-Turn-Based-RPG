@@ -58,7 +58,7 @@ public class CombatActionsUI : MonoBehaviour
     private void OnNewTurn()
     {
         // Display Player's actions if it's their turn.
-        if(TurnManager.instance.CurrentTurnCharacter.team == Character.Team.Player)
+        if(TurnManager.instance.CurrentTurnCharacter.team == Character.Team.Player && TurnManager.instance)
         {
             DisplayCombatActions(TurnManager.instance.CurrentTurnCharacter);
         }

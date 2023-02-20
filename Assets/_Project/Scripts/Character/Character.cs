@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
+    public static UnityAction<Character> OnCharacterDeath;
+
     public enum Team
     {
         Player,
@@ -57,15 +59,24 @@ public class Character : MonoBehaviour
 
     public void ToggleSelectionVisual(bool toggle)
     {
-        selectionVisualGO.SetActive(toggle);
+        if(selectionVisualGO != null)
+            selectionVisualGO.SetActive(toggle);
     }
 
-    public void CastCombatAction(CombatAction combatAction, Character target = null)
+    public void CastCombatAction(CombatAction combatAction, bool isMulti, Character target = null)
     {
         if (target == null)
             target = this;
 
-        combatAction.Cast(this, target);
+        if (!isMulti)
+            combatAction.Cast(this, target);
+        else
+        {
+            if (team == Team.Enemy)
+                combatAction.MultiCast(this, GameManager.instance.playerTeam);
+            else if (team == Team.Player)
+                combatAction.MultiCast(this, GameManager.instance.enemyTeam);
+        }
 
         currentMana -= combatAction.manaCost;
         characterUI.UpdateManaBar(currentMana, maxMana);
@@ -137,7 +148,7 @@ public class Character : MonoBehaviour
 
     private void Die()
     {
-        GameManager.instance.OnCharacterKilled(this);
+        OnCharacterDeath?.Invoke(this);
         Destroy(gameObject);
     }
 }

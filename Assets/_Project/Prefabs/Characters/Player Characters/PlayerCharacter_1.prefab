@@ -1,52 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8478756991330311456
+--- !u!1001 &7640400795750912740
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: team
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: maxMana
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: currentMana
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 2566421698332221185, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
+    - target: {fileID: 2566421698332221187, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
+    - target: {fileID: 2566421698332221189, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
+    - target: {fileID: 2566421698332221191, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
+    - target: {fileID: 2566421698332221197, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
+    - target: {fileID: 2566421698332221199, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64729640547357498794e9932c89c77, type: 2}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: displayName
-      value: Orc
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: currentHealth
-      value: 10
+      value: Player 2
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: combatActions.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: combatActions.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 69f2d99da17a4884798f3f92ee5d1b73, type: 2}
+      objectReference: {fileID: 11400000, guid: b17a763ac1961b042ad65a754c40c6d5, type: 2}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: combatActions.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 92fea0c059f9e2b48a9842b2f0b2af24, type: 2}
+      objectReference: {fileID: 11400000, guid: fc2b406b7c1a155468385df62c9ad58f, type: 2}
     - target: {fileID: 2566421698369726923, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: combatActions.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 9f90a4bef06ffed439be27fa673e4303, type: 2}
+      objectReference: {fileID: 11400000, guid: b1cbda4a58acab44a8ccc26c85e87db6, type: 2}
     - target: {fileID: 2566421698369726933, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -93,15 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2566421698369726934, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
       propertyPath: m_Name
-      value: EnemyCharacter_0
+      value: PlayerCharacter_1
       objectReference: {fileID: 0}
-    - target: {fileID: 3685028024023234778, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669698314890861849, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 6985102997902139610, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}
+      propertyPath: m_text
+      value: 10 / 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c76545a43d1bea4a8063407e7f3a408, type: 3}

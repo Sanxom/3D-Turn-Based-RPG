@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,24 @@ public class PlayerPersistentData : ScriptableObject
 {
     public PlayerPersistentCharacter[] characters;
 
-#if UNITY_EDITOR
-    private void OnValidate()
+    public string savedHealth = "savedHealth";
+    public string savedMana = "savedMana";
+    public string savedIsDead = "savedIsDead";
+
+    private void OnEnable()
     {
-        ResetCharacters();
+        if (PlayerPrefs.HasKey(savedHealth + "0") || PlayerPrefs.HasKey(savedHealth + "1") || PlayerPrefs.HasKey(savedHealth + "2"))
+        {
+            for (int i = 0; i < characters.Length; i++)
+            {
+                characters[i].health = PlayerPrefs.GetInt(savedHealth + $"{i}");
+                characters[i].mana = PlayerPrefs.GetInt(savedMana + $"{i}");
+                characters[i].isDead = Convert.ToBoolean(PlayerPrefs.GetString(savedIsDead + $"{i}"));
+            }
+        }
+        else
+            ResetCharacters();
     }
-#endif
 
     public void ResetCharacters()
     {

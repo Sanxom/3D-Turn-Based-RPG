@@ -17,4 +17,6 @@ public class EffectCombatAction : CombatAction
 
         target.characterEffects.AddNewEffect(effectToCast);
     }
+
+    public override void MultiCast(Character caster, Character[] targets){}
 }
